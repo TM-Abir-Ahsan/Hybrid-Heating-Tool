@@ -262,7 +262,7 @@ _RC = {'font.size': 12, 'font.family': 'DejaVu Sans'}
 
 def show_fig(fig):
     buf = io.BytesIO()
-    fig.savefig(buf, format='png', dpi=1200, bbox_inches='tight')
+    fig.savefig(buf, format='png', dpi=300, bbox_inches='tight')
     buf.seek(0)
     st.image(buf, use_container_width=True)
     plt.close(fig)
