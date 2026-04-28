@@ -257,7 +257,15 @@ def run_simulation(elec_price, gas_rate, nc_eff, cond_eff, load_bytes, twostage_
 
 
 # ── Plot helpers ──────────────────────────────────────────────────────────────
-_RC = {'font.size': 12, 'font.family': 'DejaVu Sans', 'figure.dpi': 150}
+_RC = {'font.size': 12, 'font.family': 'DejaVu Sans'}
+
+
+def show_fig(fig):
+    buf = io.BytesIO()
+    fig.savefig(buf, format='png', dpi=600, bbox_inches='tight')
+    buf.seek(0)
+    st.image(buf, use_container_width=True)
+    plt.close(fig)
 _REGION_COLORS = ['lightyellow', 'lightgoldenrodyellow', 'lavender', 'honeydew', 'mistyrose']
 
 
@@ -530,7 +538,7 @@ def plot_city_level(total_units, housing_fracs, results, non_hybrid_results, hou
     x = np.arange(len(labels));  w = 0.65
     gas_end=1.5;  hyb_end=13.5;  sub_divs=[4.5,7.5,10.5]
 
-    plt.rcParams.update({'font.size': 11, 'font.family': 'DejaVu Sans', 'figure.dpi': 150})
+    plt.rcParams.update({'font.size': 11, 'font.family': 'DejaVu Sans'})
     fig, axes = plt.subplots(2, 2, figsize=(22, 10))
     panels = [
         (axes[0,0], [ann_gas[l]  for l in labels], 'Annual Gas (Thousand MMBTU/yr)',  'GAS — Annual Supply Planning'),
@@ -610,7 +618,7 @@ def main():
         with c2:
             if ctrl_cost:
                 fig = plot_annual_cost(sc_cost, ctrl_cost, results, non_hybrid_results)
-                st.pyplot(fig, use_container_width=True); plt.close(fig)
+                show_fig(fig)
             else:
                 st.info("Select at least one control strategy.")
 
@@ -624,7 +632,7 @@ def main():
         with c2:
             if ctrl_ene:
                 fig = plot_annual_energy(sc_ene, ctrl_ene, results, non_hybrid_results)
-                st.pyplot(fig, use_container_width=True); plt.close(fig)
+                show_fig(fig)
             else:
                 st.info("Select at least one control strategy.")
 
@@ -634,7 +642,7 @@ def main():
             home_size = st.radio("Home size (sqft)", [1800, 2400, 3000], index=1, key='home_sz')
         with c2:
             fig = plot_peak_demand(home_size, results, hourly_results, sizing_df, eq, load_dfs)
-            st.pyplot(fig, use_container_width=True); plt.close(fig)
+            show_fig(fig)
 
     with tab4:
         c1, c2 = st.columns([1, 3])
@@ -654,7 +662,7 @@ def main():
                 st.warning(f"Fractions sum to {total_frac:.2f} — should be 1.00")
         with c2:
             fig = plot_city_level(total_units, housing_fracs, results, non_hybrid_results, hourly_results)
-            st.pyplot(fig, use_container_width=True); plt.close(fig)
+            show_fig(fig)
 
     with st.expander("Equipment Sizing Results"):
         st.dataframe(sizing_df.style.format({
