@@ -257,7 +257,7 @@ def run_simulation(elec_price, gas_rate, nc_eff, cond_eff, load_bytes, twostage_
 
 
 # ── Plot helpers ──────────────────────────────────────────────────────────────
-_RC = {'font.size': 12, 'font.family': 'DejaVu Sans'}
+_RC = {'font.size': 12, 'font.family': 'DejaVu Sans', 'figure.dpi': 150}
 _REGION_COLORS = ['lightyellow', 'lightgoldenrodyellow', 'lavender', 'honeydew', 'mistyrose']
 
 
@@ -530,7 +530,7 @@ def plot_city_level(total_units, housing_fracs, results, non_hybrid_results, hou
     x = np.arange(len(labels));  w = 0.65
     gas_end=1.5;  hyb_end=13.5;  sub_divs=[4.5,7.5,10.5]
 
-    plt.rcParams.update({'font.size': 11, 'font.family': 'DejaVu Sans'})
+    plt.rcParams.update({'font.size': 11, 'font.family': 'DejaVu Sans', 'figure.dpi': 150})
     fig, axes = plt.subplots(2, 2, figsize=(22, 10))
     panels = [
         (axes[0,0], [ann_gas[l]  for l in labels], 'Annual Gas (Thousand MMBTU/yr)',  'GAS — Annual Supply Planning'),
